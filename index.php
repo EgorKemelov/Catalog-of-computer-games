@@ -32,8 +32,49 @@
                 <a href='Sign_up.html' class='header__a'>Зарегистрироваться</a>";
                 ?>
                 </div></div>
+          <div class="frame">
+                    <div class="game">
+                        <img src="er.jpg" alt="" class="Eternal__Realms">
+                        <P class="text">
+                            Eternal Realms
+                        </P>
+                        <p class="description">
+                            Explore a vast open world
+                        </p>
+                        
+                    </div>
+                    <div class="game 2">
+                        <img src="bss.jpg" alt="" class="Bulletstorm">
+                        <p class="text__2">
+                            Bulletstorm
+                        </p>
+                        <p class="description__2">
+                            Fast-paced multiplayer shooter
+                        </p>
+                    </div>
+                    <div class="game 3">
+                        <img src="mn.jpg" alt="" class="Moonli__Odyssey">
+                        <p class="text__3">
+                            Moonlit Odyssey
+                        </p>
+                        <p class="description__3">
+                            Embark on a mystical journey
+                        </p>
+                    </div>
+                    <div class="game 4">
+                        <img src="ue.jpg" alt="" class="Urban__Empire">
+                        <p class="text__4">
+                            Urban Empire
+                        </p>
+                        <p class="description__4">
+                            Build and manage your own city
+                        </p>
+                    </div>
+                    
                 
         </div>
+        </div>
+	
    
 </body>
 
