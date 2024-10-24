@@ -175,3 +175,103 @@
     height: 30px;
     align-items: center;
 }
+.game{
+    border: 1px solid #000000;
+    height: 340px;
+    width: 335px;
+    left: 92px;
+    top: 50px;
+    text-overflow: initial;
+
+}
+.text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 57px;
+}
+    .frame{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+        
+    }
+.description{
+    text-overflow: clip;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    top: 39px;
+    padding: 10px;
+    
+}
+.Eternal__Realms{
+    width: 336px;
+    height: 205px;
+}
+.text__2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 57px;
+}
+.description__2{
+    text-overflow: clip;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    top: 39px;
+    padding: 10px;
+}
+.Bulletstorm{
+    width: 336px;
+    height: 205px;
+}
+
+.description__3{
+    text-overflow: clip;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    top: 39px;
+    padding: 10px;
+}
+.text__3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 57px;
+}
+.Moonli__Odyssey{
+    width: 336px;
+    height: 205px;
+}
+
+.text__4{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 57px;
+}
+.description__4{
+    text-overflow: clip;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    top: 39px;
+    padding: 10px;
+}
+.Urban__Empire{
+    width: 336px;
+    height: 205px;
+}
