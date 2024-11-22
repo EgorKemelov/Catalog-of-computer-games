@@ -187,7 +187,7 @@
     justify-content: center;
     display: flex;
     position: relative;
-    top: 39px;
+    top: 15px;
     padding: 10px;
     
 }
@@ -280,7 +280,7 @@ margin-bottom: 50px;
     width: 200px;
     position: relative;
     left: 20px;
-    top: -6px;
+    top: -38px;
 }
 
 
@@ -367,4 +367,8 @@ background: #13A3E8;
     background-color: darkred;
 }
 
-
+.genres{
+position: relative;
+    text-align: center;
+    top: -32px;
+}
