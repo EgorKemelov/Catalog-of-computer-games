@@ -29,10 +29,13 @@
         <div class="header">
             <a href='index.php'><img src="logo.png" alt="" class="logo"></a>
             <div class="buttons">
+            
+            
                 <?php
                 if (isset($_SESSION['user']['login'])) {
+                echo "<a href='profile.php' class='header__a'>Личный кабинет</a>"; // Ссылка на Личный кабинет
                     echo "<form action='Logout.php' method='post'><button type='submit' class='header__a'>Выйти</button></form>";
-                    echo "<a href='profile.php' class='header__a'>Личный кабинет</a>"; // Ссылка на Личный кабинет
+                    
                 } else {
                     echo "<a href='Log_in.html' class='header__a'>Войти</a>";
                     echo "<a href='Sign_up.html' class='header__a'>Зарегистрироваться</a>";
@@ -43,12 +46,35 @@
     </div>
 
     <form method="GET" action="">
-        <input type="text" name="search" placeholder="Поиск игр..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" required>
-        <button type="submit">Поиск</button>
-        <a href="index.php" style="margin-left: 10px;">Сбросить фильтрацию</a>
+        <input type="text" name="search" placeholder="Поиск игр..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" required style='/*margin-left: 28px;*\ */
+    /* padding: 16px 19px; */
+    background: #13A3E8;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;'>
+        <button type="submit" style='/*margin-left: 28px;*\ */
+    /* padding: 16px 19px; */
+    background: #13A3E8;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    background: #13A3E8;'>Поиск</button>
+        <a href="index.php" style="margin-left: 10px;
+    color: black;
+    /* margin-left: 28px; */
+    /* padding: 16px 19px; */
+    background: #13A3E8;
+    border-radius: 20px;
+    text-decoration: none;
+    /* color: white;">Сбросить фильтрацию</a>
 
         <!-- Форма для фильтрации по жанрам -->
-        <select name="genre_id" onchange="this.form.submit()">
+        <select name="genre_id" onchange="this.form.submit()" style='/*margin-left: 28px; *\*/
+    /* padding: 16px 19px; */
+    background: #13A3E8;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;'>
             <option value="">Выберите жанр</option>
             <?php
             require_once('config.php');
@@ -115,10 +141,36 @@
             while ($row = $result->fetch_assoc()) {
                 echo "<div id='g_{$row['id']}' class='game'>
                     <img src='images/{$row['id']}.png' class='Eternal__Realms'>
-                    <p class='text'>{$row['Game_name']}</p>
-                    <p class='description'>{$row['Discription']}</p>
-                    <p class='genres'>Жанры: {$row['genres']}</p> <!-- Отображение жанров -->
-                    <a href='game.php?id={$row['id']}' class='page'>Страничка с игрой</a>";
+                    <p class='text' style='display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 38px;'>{$row['Game_name']}</p>
+                    <p class='description' style='text-overflow: clip;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    top: 20px;
+    padding: 10px;'>{$row['Discription']}</p>
+                    <p class='genres' style='position: relative;
+    text-align: center;
+    top: -32px;'>Жанры: {$row['genres']}</p> <!-- Отображение жанров -->
+                    <a href='game.php?id={$row['id']}' class='page' style='margin-left: 28px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 19px;
+    gap: 10px;
+    background: #13A3E8;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    width: 200px;
+    position: relative;
+    left: 20px;
+    top: -40px;'>Страничка с игрой</a>";
 
                 // Проверяем, является ли пользователь администратором
                 if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 2) {
