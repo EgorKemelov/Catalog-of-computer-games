@@ -75,7 +75,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete_image') {
     <h1>Редактировать игру</h1>
     <form method="post" enctype="multipart/form-data">
         <label for="game_name">Название игры:</label><br>
-        <input type="text" id="game_name" name="game_name" value="<?php echo htmlspecialchars($row['Game_name']); ?>" required><br><br>
+        <input type="text" id="game_name" name="game_name" value="<?php echo htmlspecialchars($row['Game_name']); ?>" required style='/*margin-left: 28px;*\ */
+    border-radius: 20px;
+    text-decoration: none;
+    color: #000000;'><br><br>
         <label for="description">Описание:</label><br>
         <textarea id="description" name="description" required><?php echo htmlspecialchars($row['Discription']); ?></textarea><br><br>
         <label for="image">Загрузить изображение:</label><br>
