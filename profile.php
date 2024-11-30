@@ -6,15 +6,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Проверка, если пользователь не авторизован, перенаправляем на страницу логина
 if (!isset($_SESSION['user'])) {
     header("Location: Log_in.html");
     exit();
 }
 
-// Получаем данные пользователя из базы
-$userId = $_SESSION['user']['id']; // Предполагается, что ID пользователя хранится в сессии
-$sql = "SELECT Nickname, Email, Birthdate FROM users WHERE id = ?";
+$userId = $_SESSION['user']['id'];
+$sql = "SELECT Nickname, Email, Birthdate, Address FROM users WHERE id = ?";
 $stmt = $connect->prepare($sql);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
@@ -29,14 +27,13 @@ if ($result->num_rows == 1) {
 
 $stmt->close();
 
-// Обработка изменения данных
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nickname = $_POST['nickname'] ?? '';
     $email = $_POST['email'] ?? '';
-    $birthdate = $_POST['birthdate'] ?? ''; // Здесь будет вводится только год
+    $birthdate = $_POST['birthdate'] ?? '';
     $newPassword = $_POST['new_password'] ?? '';
+    $address = $_POST['address'] ?? '';
 
-    // Начинаем формировать обновляющий SQL-запрос
     $updateFields = [];
     $params = [];
 
@@ -49,8 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $params[] = $email;
     }
     if (!empty($birthdate)) {
-        $updateFields[] = "Birthdate = ?"; // Сохраняем только год
+        $updateFields[] = "Birthdate = ?";
         $params[] = $birthdate;
+    }
+    if (!empty($address)) {
+        $updateFields[] = "Address = ?";
+        $params[] = $address;
     }
     if (!empty($newPassword)) {
         $hashedPassword = hash('sha512', $newPassword);
@@ -58,35 +59,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $params[] = $hashedPassword;
     }
 
-    // Если есть поля для обновления
     if (count($updateFields) > 0) {
-        $params[] = $userId; // Добавляем ID пользователя в параметры
+        $params[] = $userId;
         $updateSql = "UPDATE users SET " . implode(", ", $updateFields) . " WHERE id = ?";
-
         $updateStmt = $connect->prepare($updateSql);
         if ($updateStmt === false) {
             die("Ошибка подготовки запроса: " . $connect->error);
         }
 
-        // Определяем типы параметров
-        $types = str_repeat('s', count($params) - 1) . 'i'; // Все строки (s), потом ID (i)
+        $types = str_repeat('s', count($params) - 1) . 'i';
         $updateStmt->bind_param($types, ...$params);
         $updateStmt->execute();
         $updateStmt->close();
 
-        // Обновляем сессию, если никнейм изменен
         if (!empty($nickname)) {
             $_SESSION['user']['nickname'] = $nickname;
         }
 
-        // Устанавливаем сообщение об успешном сохранении
         $_SESSION['message'] = "Изменения успешно сохранены!";
-        header("Location: profile.php"); // Перенаправление на страницу профиля
+        header("Location: profile.php");
         exit();
     }
 }
 
-// Закрываем соединение с базой данных
 $connect->close();
 ?>
 
@@ -97,48 +92,56 @@ $connect->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Личный кабинет пользователя</h1>
 
-        <!-- Отображение сообщения об успешном сохранении -->
         <?php if (isset($_SESSION['message'])): ?>
             <div class="alert">
                 <?php
                 echo $_SESSION['message'];
-                unset($_SESSION['message']); // Удаляем сообщение после его отображения
+                unset($_SESSION['message']);
                 ?>
             </div>
         <?php endif; ?>
 
         <form method="post" action="">
-            <p><strong>Никнейм:</strong> <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>" style="
-    border-radius: 11px;
-"></p>
-            <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>"style="
-    border-radius: 11px;
-"></p>
-            <p><strong>Год рождения:</strong> <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)"style="
-    border-radius: 11px;
-"></p>
-            <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)"style="
-    border-radius: 11px;
-"></p>
-            <input type="submit" value="Сохранить изменения"style="
-    border-radius: 11px;
-    border: none;
-    color: white;
-    background: #13A3E8;
-">
+            <p><strong>Никнейм:</strong> <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>"></p>
+            <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>"></p>
+            <p><strong>Год рождения:</strong> <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)"></p>
+            <p><strong>Адрес:</strong> 
+                <input type="text" id="address" name="address" placeholder="Введите адрес" value="<?php echo htmlspecialchars($user['Address'] ?? ''); ?>">
+            </p>
+            <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)"></p>
+            <input type="submit" value="Сохранить изменения">
         </form>
-        <a href="index.php" style="
-    color: #ffffff;
-    background: #13A3E8;
-    position: relative;
-    top: 10px;
-    text-decoration: none;
-">Вернуться на главную страницу</a>
+        <a href="index.php">Вернуться на главную страницу</a>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#address").on("input", function() {
+                let query = $(this).val();
+
+                if (query.length > 2) {
+                    $.ajax({
+                        url: "kladr_autocomplete.php",
+                        method: "POST",
+                        data: { query: query },
+                        success: function(data) {
+                            $("#address").autocomplete({
+                                source: JSON.parse(data),
+                                minLength: 3
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
