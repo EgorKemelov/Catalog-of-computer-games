@@ -119,6 +119,9 @@ $connect->close();
             <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)"></p>
             <input type="submit" value="Сохранить изменения">
         </form>
+        <p><strong>Адрес:</strong> 
+<input type="text" id="address" name="address" placeholder="Введите адрес" value="<?php echo htmlspecialchars($user['Address'] ?? ''); ?>">
+</p>
         <a href="index.php">Вернуться на главную страницу</a>
     </div>
 </body>
