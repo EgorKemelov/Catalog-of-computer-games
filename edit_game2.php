@@ -67,7 +67,8 @@ if (isset($_GET['id'])) {
     text-decoration: none;
     position: relative;
     top: 11px;
-    border-radius: 4px;'>
+    border-radius: 4px;
+    border: none;'>
         </form>"
          ;
     } else {
@@ -77,4 +78,9 @@ if (isset($_GET['id'])) {
     echo "<p>ID не передан.</p>";
 }
 ?>
-<a href="index.php">Отмена</a>
+<a href="index.php" style="
+    background: #13A3E8;
+    color: white;
+    border-radius: 3px;
+    text-decoration: none;
+">Отмена</a>
