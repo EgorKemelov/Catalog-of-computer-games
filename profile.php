@@ -113,16 +113,32 @@ $connect->close();
         <?php endif; ?>
 
         <form method="post" action="">
-            <p><strong>Никнейм:</strong> <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>"></p>
-            <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>"></p>
-            <p><strong>Год рождения:</strong> <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)"></p>
-            <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)"></p>
-            <input type="submit" value="Сохранить изменения">
+            <p><strong>Никнейм:</strong> <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>" style="
+    border-radius: 11px;
+"></p>
+            <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>"style="
+    border-radius: 11px;
+"></p>
+            <p><strong>Год рождения:</strong> <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)"style="
+    border-radius: 11px;
+"></p>
+            <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)"style="
+    border-radius: 11px;
+"></p>
+            <input type="submit" value="Сохранить изменения"style="
+    border-radius: 11px;
+    border: none;
+    color: white;
+    background: #13A3E8;
+">
         </form>
-        <p><strong>Адрес:</strong> 
-<input type="text" id="address" name="address" placeholder="Введите адрес" value="<?php echo htmlspecialchars($user['Address'] ?? ''); ?>">
-</p>
-        <a href="index.php">Вернуться на главную страницу</a>
+        <a href="index.php" style="
+    color: #ffffff;
+    background: #13A3E8;
+    position: relative;
+    top: 10px;
+    text-decoration: none;
+">Вернуться на главную страницу</a>
     </div>
 </body>
 </html>
