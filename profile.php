@@ -93,8 +93,9 @@ $connect->close();
     <title>Личный кабинет</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="jquery-master/examples/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="jquery-master/jquery.fias.min.js" type="text/javascript"></script>
+        <script src="script.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="container">
@@ -110,38 +111,67 @@ $connect->close();
         <?php endif; ?>
 
         <form method="post" action="">
-            <p><strong>Никнейм:</strong> <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>"></p>
-            <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>"></p>
-            <p><strong>Год рождения:</strong> <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)"></p>
+            <p><strong>Никнейм:</strong> <input type="text" name="nickname"  value="<?php echo htmlspecialchars($user['Nickname']); ?>" style="
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+"></p>
+            <p><strong>Email:</strong> <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" style="
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+"></p>
+            <p><strong>Год рождения:</strong> <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)" style="
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+"></p>
             <p><strong>Адрес:</strong> 
-                <input type="text" id="address" name="address" placeholder="Введите адрес" value="<?php echo htmlspecialchars($user['Address'] ?? ''); ?>">
+                <div id="one_string">
+    <div class="input">
+        <input type="text" name="address" placeholder="Адрес" style="
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+">
+    </div>
+</div>
             </p>
-            <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)"></p>
-            <input type="submit" value="Сохранить изменения">
+            <p><strong>Новый пароль:</strong> <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)" style="
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+"></p>
+            <input type="submit" value="Сохранить изменения" style="
+    style=&quot;
+    style=&quot;
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+&quot;;
+    ;/* position: absolute; */;
+    ;/* top: 10px; */;
+    ;/* position: relative; */;
+     border-radius: 11px; 
+    ;/* color: black; */;
+    text-decoration: none;
+&quot;;
+">
         </form>
-        <a href="index.php">Вернуться на главную страницу</a>
+        <a href="index.php" style="
+    style=&quot;
+    border-radius: 11px;
+    background: #13A3E8;
+    color: white;
+&quot;;
+    position: absolute;
+    top: 10px;
+    position: relative;
+    /* border-radius: 11px; */
+    color: black;
+    text-decoration: none;
+">Вернуться на главную страницу</a>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            $("#address").on("input", function() {
-                let query = $(this).val();
-
-                if (query.length > 2) {
-                    $.ajax({
-                        url: "kladr_autocomplete.php",
-                        method: "POST",
-                        data: { query: query },
-                        success: function(data) {
-                            $("#address").autocomplete({
-                                source: JSON.parse(data),
-                                minLength: 3
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
