@@ -24,53 +24,94 @@ if (isset($_GET['id'])) {
         <h1>{$game['Game_name']}</h1>
         <form action='update_game.php' method='post'>
             <input type='hidden' name='id' value='{$id}'>
-            <label for='Game_name'>Название игры:</label>
-            <input  style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
-    position: relative;
-    /*top: 11px;*/
-    border-radius: 4px;
-    margin: 4px;
-}' type='text' id='Game_name' name='Game_name' value='" . htmlspecialchars($game['Game_name']) . "' required><br>
+            
+            <div class='form-group'>
+                <label for='Game_name'>Название игры:</label>
+                <input class='styled-input' type='text' id='Game_name' name='Game_name' value='" . htmlspecialchars($game['Game_name']) . "' required>
+            </div>
 
-            <label for='Discription'>Описание:</label>
-            <textarea style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
-    position: relative;
-    /*top: 11px;*/
-    border-radius: 4px;
-}' id='Discription' name='Discription' required>" . htmlspecialchars($game['Discription']) . "</textarea><br>
+            <div class='form-group'>
+                <label for='Discription'>Описание:</label>
+                <textarea class='styled-input' id='Discription' name='Discription' required>" . htmlspecialchars($game['Discription']) . "</textarea>
+            </div>
 
-            <label for='System_reauirements'>Системные требования:</label>
-            <input type='text'style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
-    position: relative;
-    /*top: 11px;*/
-    border-radius: 4px;
-}' id='System_reauirements' name='System_reauirements' value='" . htmlspecialchars($game['System_reauirements']) . "' required><br>
+            <div class='form-group'>
+                <label for='System_reauirements'>Системные требования:</label>
+                <input class='styled-input' type='text' id='System_reauirements' name='System_reauirements' value='" . htmlspecialchars($game['System_reauirements']) . "' required>
+            </div>
 
-            <label for='Release_date' style='position: relative;
-    top: 4px;'>Дата выхода:</label>
-            <input style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
-    position: relative;
-    top: 4px;
-    border-radius: 4px;
-}' type='date' id='Release_date' name='Release_date' value='" . htmlspecialchars($game['Release_date']) . "' required><br>
+            <div class='form-group'>
+                <label for='Release_date'>Дата выхода:</label>
+                <input class='styled-input' type='date' id='Release_date' name='Release_date' value='" . htmlspecialchars($game['Release_date']) . "' required>
+            </div>
 
-            <input type='submit' value='Обновить игру' style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
-    position: relative;
-    top: 11px;
-    border-radius: 4px;
-    border: none;'>
-        </form>"
-         ;
+            <input type='submit' class='styled-button' value='Обновить игру'>
+        </form>
+        
+        <a href='index.php' class='styled-link'>Отмена</a>
+        
+        <style>
+            .form-group {
+                margin-bottom: 15px; /* Отступ между группами */
+            }
+
+            .styled-input {
+                width: 100%; /* Ширина 100% */
+                background: #13A3E8;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 10px; /* Внутренние отступы */
+                font-size: 16px; /* Размер шрифта */
+                transition: background 0.3s ease; /* Плавный переход */
+            }
+
+            .styled-input:focus {
+                background: #0F7BBA; /* Цвет фона при фокусе */
+                outline: none; /* Убираем стандартный контур */
+            }
+
+            .styled-button {
+                background: #13A3E8;
+                color: white;
+                border-radius: 4px;
+                border: none;
+                padding: 10px 20px; /* Отступы */
+                font-size: 16px; /* Размер шрифта */
+                cursor: pointer; /* Указатель при наведении */
+                transition: background 0.3s ease, transform 0.2s ease; /* Плавный переход */
+            }
+
+            .styled-button:hover {
+                background: #0F7BBA; /* Цвет фона при наведении */
+                transform: translateY(-2px); /* Легкий подъем кнопки */
+            }
+
+            .styled-button:active {
+                transform: translateY(1px); /* Эффект нажатия */
+            }
+
+            .styled-link {
+                display: inline-block; /* Позволяет использовать отступы и размеры */
+                background: #13A3E8;
+                color: white;
+                border-radius: 3px;
+                text-decoration: none;
+                padding: 10px 20px; /* Отступы для кнопки */
+                font-size: 16px; /* Размер шрифта */
+                transition: background 0.3s ease, transform 0.2s ease; /* Плавный переход */
+            }
+
+            .styled-link:hover {
+                background: #0F7BBA; /* Цвет фона при наведении */
+                transform: translateY(-2px); /* Легкий подъем кнопки */
+            }
+
+            .styled-link:active {
+                transform: translateY(1px); /* Эффект нажатия */
+            }
+        </style>
+        ";
     } else {
         echo "<p>Игра не найдена.</p>";
     }
@@ -78,9 +119,3 @@ if (isset($_GET['id'])) {
     echo "<p>ID не передан.</p>";
 }
 ?>
-<a href="index.php" style="
-    background: #13A3E8;
-    color: white;
-    border-radius: 3px;
-    text-decoration: none;
-">Отмена</a>
