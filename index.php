@@ -212,8 +212,8 @@ if(!$connect){
                     echo "<div class='suggested-game'>
                         <p>Название: {$game['Game_name']}</p>
                         <p>Описание: {$game['Discription']}</p>
-                        <a href='approve_game.php?' style='color: green;'>Одобрить</a>
-                        <a href='reject_game.php?' style='color: red;'>Отклонить</a>
+                        <a href='approve_game.php?' style='color: green;'>К рассмотрению</a>
+                        
                     </div>";
                 }
             } else {
