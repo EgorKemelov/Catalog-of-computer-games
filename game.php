@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Game</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+    </style>
 </head>
 <body>
     <div class="container">
@@ -56,14 +58,23 @@
                 if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 2) {
     echo "<form action='edit_game2.php' method='get'>
             <input type='hidden' name='id' value='{$id}'>
-            <input type='submit' value='Редактировать' class='header___a' style='
-    /*height: 25px;*/
-    background: #13A3E8;
-    border-radius: 20px;
-    text-decoration: none;
-    color: white;
+           <input type='submit' value='Редактировать' class='header___a' style='
+    height: 40px;
+    width: 150px; /* Задаем ширину кнопки */
+    background: #13A3E8; /* Основной цвет */
+    border: none; /* Убираем стандартную рамку */
+    border-radius: 20px; /* Скругление углов */
+    color: white; /* Цвет текста */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    cursor: pointer; /* Курсор при наведении */
     position: relative;
-    top: -8px;'>
+    top: -8px;
+    text-align: center; /* Центрирование текста */
+    line-height: 10px; /* Вертикальное центрирование */
+    transition: background 0.3s ease, transform 0.2s ease; /* Плавные переходы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для кнопки */
+'>
           </form>";
 }
             } else {
