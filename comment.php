@@ -53,13 +53,31 @@ $result = $stmt->get_result();
 </head>
 <body>
     <form action="" method="post">
-        <textarea name="comment"  required placeholder="Введите ваш комментарий..." style='border: 1px solid black;'></textarea>
-        <input type="submit" class='comment' value="Оставить комментарий" style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
+        <textarea name="comment" required placeholder="Введите ваш комментарий..." style='
+    width: 281px; /* Занимает всю ширину контейнера */
+    height: 100px; /* Высота поля ввода */
+    border: 1px solid #ccc; /* Светлая рамка */
+    border-radius: 4px; /* Скругление углов */
+    padding: 10px; /* Отступы внутри поля */
+    font-size: 16px; /* Размер шрифта */
+    resize: none; /* Запрет изменения размера поля */
+    transition: border-color 0.3s ease; /* Плавный переход цвета рамки */
+'>
+</textarea>
+
+<input type="submit" class='comment' value="Оставить комментарий" style='
+    background: #13A3E8; /* Основной цвет кнопки */
+    color: white; /* Цвет текста */
+    font-size: 16px; /* Размер шрифта */
+    border: none; /* Убираем стандартную рамку */
+    border-radius: 4px; /* Скругление углов */
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    cursor: pointer; /* Курсор при наведении */
     position: relative;
-    top: -4px;
-    border-radius: 4px;'>
+    top: -16px;
+    transition: background 0.3s ease, transform 0.2s ease; /* Плавные переходы */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для кнопки */
+'>
     </form>
     <?php
     if ($result->num_rows > 0) {
