@@ -34,26 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newPassword = $_POST['new_password'] ?? '';
     $address = $_POST['address'] ?? '';
 
-    // Валидация адреса через API КЛАДР
-    $isValidAddress = false;
-    if (!empty($address)) {
-        $apiKey = "YOUR_API_KEY"; // Укажите ваш API-ключ для КЛАДР
-        $url = "https://kladr-api.ru/api.php?query=" . urlencode($address) . "&contentType=address&limit=1&token=$apiKey";
-        $response = file_get_contents($url);
-        $data = json_decode($response, true);
-
-        if (!empty($data['result']) && $data['result'][0]['fullName'] === $address) {
-            $isValidAddress = true;
-        }
-    }
-
-    if (!$isValidAddress) {
-        $_SESSION['message'] = "Ошибка: Введённый адрес не найден в справочнике КЛАДР.";
-        header("Location: profile.php");
-        exit();
-    }
-
-    // Формирование запроса на обновление данных
     $updateFields = [];
     $params = [];
 
@@ -104,3 +84,132 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $connect->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="jquery-master/examples/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="jquery-master/jquery.fias.min.js" type="text/javascript"></script>
+        <script src="script.js" type="text/javascript"></script>
+        <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.alert {
+    background-color: #dff0d8; /* Светло-зеленый */
+    color: #3c763d; /* Темно-зеленый */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.input-field {
+    width: calc(100% - 22px);
+    padding: 12px;
+    border-radius: 8px; /* Увеличенный радиус закругления */
+    border: 2px solid #007bff; /* Синяя рамка */
+    background-color: #f0f8ff; /* Очень светлый голубой фон */
+    font-size: 16px; /* Увеличенный размер шрифта */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень */
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Плавный переход для рамки и фона */
+}
+
+.input-field:focus {
+    border-color: #0056b3; /* Темно-синий цвет рамки при фокусе */
+    background-color: #e7f3ff; /* Светло-голубой фон при фокусе */
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff; /* Синий цвет кнопки */
+    color: white;
+    font-size: 16px;
+    cursor: pointer; /* Указатель при наведении */
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Темнее синий при наведении */
+}
+
+.back-link {
+    display: inline-block; /* Для правильного отображения */
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #17a2b8; /* Цвет ссылки */
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.back-link:hover {
+    background-color: #138496; /* Темнее при наведении */
+}
+        </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Личный кабинет пользователя</h1>
+
+    <?php if (isset($_SESSION['message'])): ?>
+        <div class="alert">
+            <?php
+            echo $_SESSION['message'];
+            unset($_SESSION['message']);
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <form method="post" action="">
+        <p>
+            <strong>Никнейм:</strong>
+            <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>" class="input-field">
+        </p>
+        <p>
+            <strong>Email:</strong>
+            <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" class="input-field">
+        </p>
+        <p>
+            <strong>Год рождения:</strong>
+            <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)" class="input-field">
+        </p>
+        <p>
+            <strong>Адрес:</strong>
+            <input type="text" name="address" placeholder="Адрес" class="input-field">
+        </p>
+        <p>
+            <strong>Новый пароль:</strong>
+            <input type="password" name="new_password" placeholder="Введите новый пароль (если хотите сменить)" class="input-field">
+        </p>
+        <input type="submit" value="Сохранить изменения" class="submit-button">
+    </form>
+    <a href="index.php" class="back-link">Вернуться на главную страницу</a>
+</div>
+</body>
+</html>
