@@ -7,6 +7,62 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Вход</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+    .signin__title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    margin-left: 32px;
+    margin-top: 0px;
+}
+    /* Общие стили для формы входа */
+.login__form {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение полей */
+    margin: 0 auto; /* Центрирование формы */
+    width: 300px; /* Ширина формы */
+    padding: 20px; /* Внутренние отступы */
+    /* Убрали фон и тень */
+}
+
+/* Поля ввода */
+.login,
+.Password {
+    padding: 10px; /* Отступы внутри полей */
+    margin-bottom: 15px; /* Отступ между полями */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    border-radius: 4px; /* Закругленные углы */
+    font-size: 16px; /* Размер шрифта */
+}
+
+/* Кнопка входа */
+.Signin__button {
+    padding: 10px;
+    background-color: #007bff; /* Цвет кнопки (синий) */
+    color: white; /* Цвет текста на кнопке */
+    border: none; /* Без рамки */
+    border-radius: 4px; /* Закругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    font-size: 16px; /* Размер шрифта кнопки */
+    margin-top: 10px; /* Отступ сверху для отделения от остальных полей */
+    margin-left: 1px;
+}
+
+.Signin__button:hover {
+    background-color: #0056b3; /* Темнее при наведении */
+}
+
+/* Центрирование кнопки на странице */
+.login__form {
+    align-items: center; /* Центрирование содержимого по горизонтали */
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 400px) {
+    .login__form {
+        width: 90%; /* Ширина формы на маленьких экранах */
+    }
+}
+    </style>
 </head>
 
 <body>
@@ -22,6 +78,10 @@
                 <input type="submit" class="Signin__button" value="Войти">
             </form>
         </div>
+ <form action="vk_login.php" method="GET">
+        <button type="submit">Войти через ВКонтакте</button>
+    </form>
+
 
     </section>
 </body>
