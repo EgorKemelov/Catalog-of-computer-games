@@ -92,12 +92,15 @@ $result = $stmt->get_result();
                     echo "<form action='delete_comment.php' method='post' style='display:inline;'>
                             <input type='hidden' name='comment_id' value='{$row['comment_id']}'>
                             <input type='hidden' name='game_id' value='{$id_game}'>
-                            <button type='submit' style='background: #13A3E8;
-    color: white;
-    text-decoration: none;
-    position: relative;
-    /top: -4px;/
-    border-radius: 11px;'>Удалить</button>
+                            <button type='submit' style='background: #13A3E8; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем стандартную границу */
+    border-radius: 11px; /* Скругление углов */
+    padding: 5px 10px; /* Отступы внутри кнопки */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт для выделения */
+    cursor: pointer; /* Курсор в виде руки при наведении */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Плавные переходы для эффектов */'>Удалить</button>
                           </form>";
                 }
             }
