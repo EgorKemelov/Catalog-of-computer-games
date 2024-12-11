@@ -21,36 +21,47 @@ if (isset($_GET['id'])) {
     // Проверяем, нашлась ли игра
     if ($game) {
         echo "
-        <h1>{$game['Game_name']}</h1>
-        <form action='update_game.php' method='post'>
-            <input type='hidden' name='id' value='{$id}'>
+        <div class='container'>
+            <h1>{$game['Game_name']}</h1>
+            <form action='update_game.php' method='post'>
+                <input type='hidden' name='id' value='{$id}'>
+                
+                <div class='form-group'>
+                    <label for='Game_name'>Название игры:</label>
+                    <input class='styled-input' type='text' id='Game_name' name='Game_name' value='" . htmlspecialchars($game['Game_name']) . "' required>
+                </div>
+
+                <div class='form-group'>
+                    <label for='Discription'>Описание:</label>
+                    <textarea class='styled-input' id='Discription' name='Discription' required>" . htmlspecialchars($game['Discription']) . "</textarea>
+                </div>
+
+                <div class='form-group'>
+                    <label for='System_reauirements'>Системные требования:</label>
+                    <input class='styled-input' type='text' id='System_reauirements' name='System_reauirements' value='" . htmlspecialchars($game['System_reauirements']) . "' required>
+                </div>
+
+                <div class='form-group'>
+                    <label for='Release_date'>Дата выхода:</label>
+                    <input class='styled-input' type='date' id='Release_date' name='Release_date' value='" . htmlspecialchars($game['Release_date']) . "' required>
+                </div>
+
+                <input type='submit' class='styled-button' value='Обновить игру'>
+            </form>
             
-            <div class='form-group'>
-                <label for='Game_name'>Название игры:</label>
-                <input class='styled-input' type='text' id='Game_name' name='Game_name' value='" . htmlspecialchars($game['Game_name']) . "' required>
-            </div>
+            <a href='index.php' class='styled-link'>Отмена</a>
+        </div>
 
-            <div class='form-group'>
-                <label for='Discription'>Описание:</label>
-                <textarea class='styled-input' id='Discription' name='Discription' required>" . htmlspecialchars($game['Discription']) . "</textarea>
-            </div>
-
-            <div class='form-group'>
-                <label for='System_reauirements'>Системные требования:</label>
-                <input class='styled-input' type='text' id='System_reauirements' name='System_reauirements' value='" . htmlspecialchars($game['System_reauirements']) . "' required>
-            </div>
-
-            <div class='form-group'>
-                <label for='Release_date'>Дата выхода:</label>
-                <input class='styled-input' type='date' id='Release_date' name='Release_date' value='" . htmlspecialchars($game['Release_date']) . "' required>
-            </div>
-
-            <input type='submit' class='styled-button' value='Обновить игру'>
-        </form>
-        
-        <a href='index.php' class='styled-link'>Отмена</a>
-        
         <style>
+            .container {
+                max-width: 600px; /* Максимальная ширина контейнера */
+                margin: 0 auto; /* Центрирование по горизонтали */
+                padding: 20px; /* Отступы внутри контейнера */
+                background-color: #f9f9f9; /* Цвет фона контейнера */
+                border-radius: 8px; /* Скругление углов */
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для эффекта глубины */
+            }
+
             .form-group {
                 margin-bottom: 15px; /* Отступ между группами */
             }
