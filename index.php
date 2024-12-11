@@ -47,30 +47,58 @@
     </div>
 
     <form method="GET" action="">
-        <input type="text" name="search" placeholder="Поиск игр..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" required>
+        <input type="text" name="search" placeholder="Поиск игр..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" required style="
+    padding: 10px 15px; /* Отступы внутри поля */
+    border: 2px solid #13A3E8; /* Цвет границы */
+    border-radius: 20px; /* Скругление углов */
+    font-size: 16px; /* Размер шрифта */
+    color: #333; /* Цвет текста */
+    background-color: #f0f8ff; /* Цвет фона */
+    width: 300px; /* Ширина поля ввода */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы для эффектов */
+">
+
     
-        <button type="submit" style='/*margin-left: 28px;*\ */
-    /* padding: 16px 19px; */
+  <button type="submit" style="
+    /*margin-left: 28px;*/
+    padding: 10px 15px;
     background: #13A3E8;
+    border: none;
     border-radius: 20px;
-    text-decoration: none;
     color: white;
-    background: #13A3E8;'>Поиск</button>
-        <a href="index.php" style="margin-left: 10px;
-    /* margin-left: 28px; */
-    /* padding: 16px 19px; */
-    background: #13A3E8;
-    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
     text-decoration: none;
-    color: white;">Сбросить фильтрацию</a>
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+">
+    Поиск
+</button>
+
+        <a href="index.php" style="
+    margin-left: 10px; /* Отступ слева */
+    padding: 10px 15px; /* Отступы внутри ссылки */
+    background: #13A3E8; /* Цвет фона */
+    border-radius: 20px; /* Скругление углов */
+    text-decoration: none; /* Убираем подчеркивание текста */
+    color: white; /* Цвет текста */
+    font-weight: bold; /* Жирный шрифт для выделения */
+    display: inline-block; /* Делаем ссылку блочным элементом для отступов */
+    transition: background 0.3s ease, transform 0.2s ease; /* Плавные переходы для эффектов */
+">
+    Сбросить фильтрацию
+</a>
 
         <!-- Форма для фильтрации по жанрам -->
-        <select name="genre_id" onchange="this.form.submit()" style='/*margin-left: 28px; *\*/
-    /* padding: 16px 19px; */
-    background: #13A3E8;
-    border-radius: 20px;
-    text-decoration: none;
-    color: white;'>
+        <select name="genre_id" onchange="this.form.submit()" style='margin-left: 10px; /* Отступ слева */
+    padding: 10px 15px; /* Отступы внутри выпадающего списка */
+    background: #13A3E8; /* Цвет фона */
+    border: none; /* Убираем стандартную границу */
+    border-radius: 20px; /* Скругление углов */
+    color: white; /* Цвет текста */
+    font-size: 16px; /* Размер шрифта */
+    cursor: pointer; /* Курсор в виде руки при наведении */
+    transition: background 0.3s ease, border-color 0.3s ease; /* Плавные переходы для эффектов */'>
             <option value="">Выберите жанр</option>
             <?php
             require_once('config.php');
@@ -152,21 +180,27 @@
                     <p class='genres' style='position: relative;
     text-align: center;
     top: -32px;'>Жанры: {$row['genres']}</p> <!-- Отображение жанров -->
-                    <a href='game.php?id={$row['id']}' class='page' style='margin-left: 28px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 19px;
-    gap: 10px;
-    background: #13A3E8;
-    border-radius: 20px;
-    text-decoration: none;
-    color: white;
-    width: 200px;
-    position: relative;
-    left: 20px;
-    top: -40px;'>Страничка с игрой</a>";
+                    <a href='game.php?id={$row['id']}' class='page' style=' .page {
+            margin-left: 28px; /* Отступ слева */
+            display: flex; /* Используем flexbox для выравнивания */
+            flex-direction: row; /* Горизонтальное расположение элементов */
+            justify-content: center; /* Центрируем содержимое по горизонтали */
+            align-items: center; /* Центрируем содержимое по вертикали */
+            padding: 12px 20px; /* Уменьшенные отступы внутри кнопки */
+            gap: 10px; /* Промежуток между элементами */
+            background: #13A3E8; /* Цвет фона кнопки */
+            border-radius: 20px; /* Скругление углов кнопки */
+            text-decoration: none; /* Убираем подчеркивание текста ссылки */
+            color: white; /* Цвет текста ссылки */
+            width: 200px; /* Ширина кнопки */
+            position: relative; /* Позиционирование относительно родителя */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Плавные переходы для эффектов */
+        }
+
+        .page:hover {
+            background-color: #0f7cba; /* Более темный оттенок фона при наведении */
+            transform: scale(1.05); /* Немного увеличиваем кнопку при наведении */
+        }'>Страничка с игрой</a>";
 
                 // Проверяем, является ли пользователь администратором
                 if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 2) {
@@ -212,8 +246,8 @@ if(!$connect){
                     echo "<div class='suggested-game'>
                         <p>Название: {$game['Game_name']}</p>
                         <p>Описание: {$game['Discription']}</p>
-                        <a href='approve_game.php?' style='color: green;'>К рассмотрению</a>
-                        
+                        <a href='approve_game.php?' style='color: green;'>Одобрить</a>
+                        <a href='reject_game.php?' style='color: red;'>Отклонить</a>
                     </div>";
                 }
             } else {
