@@ -28,11 +28,11 @@ if ($result->num_rows == 1) {
 $stmt->close();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nickname = $_POST['nickname'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $birthdate = $_POST['birthdate'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
-    $address = $_POST['address'] ?? '';
+    $nickname = htmlspecialchars($_POST['nickname'] ?? '', ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8');
+    $birthdate = htmlspecialchars($_POST['birthdate'] ?? '', ENT_QUOTES, 'UTF-8');
+    $newPassword = htmlspecialchars($_POST['new_password'] ?? '', ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($_POST['address'] ?? '', ENT_QUOTES, 'UTF-8');
 
     $updateFields = [];
     $params = [];
@@ -42,10 +42,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $params[] = $nickname;
     }
     if (!empty($email)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            die("Некорректный формат email.");
+        }
         $updateFields[] = "Email = ?";
         $params[] = $email;
     }
     if (!empty($birthdate)) {
+        if (!preg_match('/^\d{4}$/', $birthdate)) {
+            die("Некорректный формат года рождения. Используйте только год, например, 1990.");
+        }
         $updateFields[] = "Birthdate = ?";
         $params[] = $birthdate;
     }
@@ -54,6 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $params[] = $address;
     }
     if (!empty($newPassword)) {
+        if (strlen($newPassword) < 8) {
+            die("Пароль должен быть не менее 8 символов.");
+        }
         $hashedPassword = hash('sha512', $newPassword);
         $updateFields[] = "Password = ?";
         $params[] = $hashedPassword;
@@ -64,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $updateSql = "UPDATE users SET " . implode(", ", $updateFields) . " WHERE id = ?";
         $updateStmt = $connect->prepare($updateSql);
         if ($updateStmt === false) {
-            die("Ошибка подготовки запроса: " . $connect->error);
+            die("Ошибка подготовки запроса: " . htmlspecialchars($connect->error, ENT_QUOTES, 'UTF-8'));
         }
 
         $types = str_repeat('s', count($params) - 1) . 'i';
@@ -180,7 +189,7 @@ h1 {
     <?php if (isset($_SESSION['message'])): ?>
         <div class="alert">
             <?php
-            echo $_SESSION['message'];
+            echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8');
             unset($_SESSION['message']);
             ?>
         </div>
@@ -189,15 +198,15 @@ h1 {
     <form method="post" action="">
         <p>
             <strong>Никнейм:</strong>
-            <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname']); ?>" class="input-field">
+            <input type="text" name="nickname" value="<?php echo htmlspecialchars($user['Nickname'], ENT_QUOTES, 'UTF-8'); ?>" class="input-field">
         </p>
         <p>
             <strong>Email:</strong>
-            <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email']); ?>" class="input-field">
+            <input type="email" name="email" value="<?php echo htmlspecialchars($user['Email'], ENT_QUOTES, 'UTF-8'); ?>" class="input-field">
         </p>
         <p>
             <strong>Год рождения:</strong>
-            <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate']); ?>" placeholder="Введите год (например, 1990)" class="input-field">
+            <input type="text" name="birthdate" value="<?php echo htmlspecialchars($user['Birthdate'], ENT_QUOTES, 'UTF-8'); ?>" placeholder="Введите год (например, 1990)" class="input-field">
         </p>
         <p>
             <strong>Адрес:</strong>
