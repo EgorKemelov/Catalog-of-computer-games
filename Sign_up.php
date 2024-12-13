@@ -1,35 +1,47 @@
-
 <?php
- require_once ('config.php');
-$connect = mysqli_connect($servername, $username, $password, $username) or die("Connection Error: " . mysqli_error($connect ));
-$login=mysqli_real_escape_string($connect,trim($_POST['login']));
-$pass = mysqli_real_escape_string($connect,trim($_POST['pass']));
-$repeatpass = mysqli_real_escape_string($connect,trim($_POST['repeatpass']));
-$email = mysqli_real_escape_string($connect,trim($_POST['email']));
-$bdate = mysqli_real_escape_string($connect,trim($_POST['bdate']));
+require_once('config.php');
+session_start();
 
+// Проверка на POST-запрос
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $login = trim($_POST['login']);
+    $password = trim($_POST['pass']);
+    $repeatPassword = trim($_POST['repeatpass']);
+    $email = trim($_POST['email']);
+    $birthdate = trim($_POST['bdate']);
 
-if (empty ($login) || empty ($pass) || empty($repeatpass) || empty($email) || empty($bdate)) {
-    echo "Заполните все поля";
-} else {
-    if ($pass != $repeatpass) {
-        echo "Пароли не совпадают";
-        
-    } else {$pass = hash('sha512', trim($_POST['pass']));
-    
-        $sql = "INSERT INTO users (Nickname,Password,Email,Birthdate) VALUES ('$login', '$pass','$email', '$bdate')"; 
-        
-       if ($connect -> query($sql) === TRUE) {
+    if (empty($login) || empty($password) || empty($repeatPassword) || empty($email) || empty($birthdate)) {
+        die("Заполните все поля");
+    }
+
+    if ($password !== $repeatPassword) {
+        die("Пароли не совпадают");
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Некорректный email");
+    }
+
+    // Проверка формата года рождения
+    if (!preg_match('/^\d{4}$/', $birthdate)) {
+        die("Некорректный формат года рождения");
+    }
+
+    // Хэширование пароля
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Подготовленный запрос для вставки данных
+    $sql = "INSERT INTO users (Nickname, Password, Email, Birthdate) VALUES (?, ?, ?, ?)";
+    $stmt = $connect->prepare($sql);
+    if (!$stmt) {
+        die("Ошибка подготовки запроса: " . htmlspecialchars($connect->error, ENT_QUOTES, 'UTF-8'));
+    }
+
+    $stmt->bind_param("ssss", $login, $hashedPassword, $email, $birthdate);
+    if ($stmt->execute()) {
         echo "Успешная регистрация";
-       }
-       else {
-        echo "Ошибка: " . $connect->error;
-       }
+    } else {
+        echo "Ошибка: " . htmlspecialchars($stmt->error, ENT_QUOTES, 'UTF-8');
     }
 }
-
-
-
-
-
-
+?>
