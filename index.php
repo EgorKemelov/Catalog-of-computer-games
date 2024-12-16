@@ -7,6 +7,47 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Главная</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* Стили для блока предложенной игры */
+.suggested-game {
+    max-width: 600px; /* Максимальная ширина блока */
+    background-color: #f0f0f0; /* Светлый фон блока */
+    border: 1px solid #ddd; /* Рамка вокруг блока */
+    border-radius: 8px; /* Закругленные углы */
+    padding: 15px; /* Внутренние отступы */
+    margin: 10px 0; /* Отступы сверху и снизу, убрано центрирование */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для эффекта глубины */
+}
+
+/* Стили для заголовка и описания игры */
+.suggested-game p {
+    margin: 5px 0; /* Отступы между параграфами */
+}
+
+/* Стили для ссылок */
+.suggested-game a {
+    display: inline-block; /* Инлайн-блок для ссылок */
+    background-color: #007BFF; /* Синий фон для ссылок */
+    color: white; /* Белый текст */
+    padding: 8px 12px; /* Отступы внутри ссылки */
+    text-decoration: none; /* Убираем подчеркивание текста */
+    border-radius: 4px; /* Закругленные углы ссылки */
+    margin-right: 10px; /* Отступ справа между ссылками */
+}
+
+.suggested-game a:hover {
+    background-color: #0056b3; /* Темно-синий цвет при наведении на ссылку */
+}
+
+.suggested-game a.reject {
+    background-color: red; /* Красный фон для ссылки отклонения */
+}
+
+.suggested-game a.reject:hover {
+    background-color: darkred; /* Темно-красный цвет при наведении на ссылку отклонения */
+}
+
+    </style>
 </head>
 
 <body>
@@ -38,6 +79,7 @@
                     
                     
                 } else {
+                
                     echo "<a href='Log_in.html' class='header__a'>Войти</a>";
                     echo "<a href='Sign_up.html' class='header__a'>Зарегистрироваться</a>";
                 }
@@ -112,6 +154,13 @@
             ?>
         </select>
     </form>
+    <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 2) { ?>
+        <a href='add_game.php' class='add-game-button' style='background: #13A3E8; color: white; text-decoration: none; padding: 10px; border-radius: 20px; margin-left: 856px; position: relative; top: -31px'>Добавить новую игру</a>
+    <?php } ?>
+    <!-- Форма для предложения игры -->
+    <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 1) { ?>
+        <a href="suggest_game.php" style="background: #13A3E8; color: white; text-decoration: none; padding: 10px; border-radius: 20px; margin-left: 856px; position: relative; top: -31px">Предложить игру</a>
+    <?php } ?>
 
     <div class="frame">
         <?php
@@ -218,13 +267,7 @@
         ?>
     </div>
 
-    <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 2) { ?>
-        <a href='add_game.php' class='add-game-button' style='background: #13A3E8; color: white; text-decoration: none; position: relative; /*top: -2630px;*/ border-radius: 10px; padding: 3px; margin-left: 575px'>Добавить новую игру</a>
-    <?php } ?>
-    <!-- Форма для предложения игры -->
-    <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 1) { ?>
-        <a href="suggest_game.php" style="background: #13A3E8; color: white; text-decoration: none; padding: 10px; border-radius: 10px;">Предложить игру</a>
-    <?php } ?>
+    
 
     <!-- Раздел для предложенных игр -->
     <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 2) { ?>
@@ -246,8 +289,8 @@ if(!$connect){
                     echo "<div class='suggested-game'>
                         <p>Название: {$game['Game_name']}</p>
                         <p>Описание: {$game['Discription']}</p>
-                        <a href='approve_game.php?' style='color: green;'>Одобрить</a>
-                        <a href='reject_game.php?' style='color: red;'>Отклонить</a>
+                        <a href='approve_game.php?'>Рассмотреть</a>
+                        
                     </div>";
                 }
             } else {
