@@ -194,6 +194,19 @@ h1 {
             ?>
         </div>
     <?php endif; ?>
+<?php if (!empty($address)) {
+    // Проверка адреса через API ФИАС
+    $url = "https://your-fias-api-url?query=" . urlencode($address);
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
+
+    if (empty($data['addresses'])) {
+        die("Указанный адрес не найден. Пожалуйста, проверьте введённые данные.");
+    }
+
+    $updateFields[] = "Address = ?";
+    $params[] = $address;
+} ?>
 
     <form method="post" action="">
         <p>
