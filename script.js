@@ -1,89 +1,123 @@
+// Инициализация FIAS
 $(function () {
-    var $address = $('[name="address"]'),
-        $parent = $('[name="parent"]');
+    var $zip = $('[name="zip"]'),
+        $region = $('[name="region"]'),
+        $district = $('[name="district"]'),
+        $city = $('[name="city"]'),
+        $street = $('[name="street"]'),
+        $building = $('[name="building"]');
 
-    $address.fias({
-        oneString: true,
-        change: function (obj) {
-            log(obj);
-        }
-    });
+    var $tooltip = $('.tooltip');
 
-    $parent.change(function () {
-        changeParent($(this).val());
-    });
-
-    changeParent($('[name="parent"]:checked').val());
-
-    function changeParent(value) {
-        var parentType = null,
-            parentId = null;
-
-        switch (value) {
-            case 'moscow':
-                parentType = $.fias.type.region;
-                parentId = '7700000000000';
-                break;
-
-            case 'petersburg':
-                parentType = $.fias.type.region;
-                parentId = '7800000000000';
-                break;
-        }
-
-        $address.fias({
-            parentType: parentType,
-            parentId: parentId
-        });
-    }
-
-    function log(obj) {
-        var $log, i;
-
-        $('.js-log li').hide();
-
-        for (i in obj) {
-            $log = $('#' + i);
-
-            if ($log.length) {
-                $log.find('.value').text(obj[i]);
-                $log.show();
-            }
-        }
-    }
-
-    // Добавляем проверку адреса
-    $('form').on('submit', function (e) {
-        e.preventDefault(); // Останавливаем стандартное поведение формы
-        const address = $address.val();
-
-        checkAddress(address).then(isValid => {
-            if (isValid) {
-                this.submit(); // Отправляем форму, если адрес валиден
+    $.fias.setDefault({
+        parentInput: '.js-form-address',
+        verify: true,
+        select: function (obj) {
+            setLabel($(this), obj.type);
+            $tooltip.hide();
+        },
+        check: function (obj) {
+            var $input = $(this);
+            if (obj) {
+                setLabel($input, obj.type);
+                $tooltip.hide();
             } else {
-                alert('Указанный адрес не найден в базе данных. Пожалуйста, проверьте введённый адрес.');
+                showError($input, 'Введено неверно');
             }
-        }).catch(err => {
-            alert('Произошла ошибка при проверке адреса. Пожалуйста, попробуйте снова.');
-            console.error(err);
-        });
+        },
+        checkBefore: function () {
+            var $input = $(this);
+            if (!$.trim($input.val())) {
+                $tooltip.hide();
+                return false;
+            }
+        },
+        change: function (obj) {
+            if (obj && obj.parents) {
+                $.fias.setValues(obj.parents, '.js-form-address');
+            }
+            if (obj && obj.zip) {
+                $('[name="zip"]').val(obj.zip);
+            }
+        },
     });
 
-    async function checkAddress(address) {
-        try {
-            const response = await fetch('validate_address.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ address })
-            });
+    // Инициализация полей
+    initializeFiasFields();
 
-            const data = await response.json();
-            return data.valid;
-        } catch (err) {
-            console.error('Ошибка проверки адреса:', err);
-            return false;
-        }
+    function initializeFiasFields() {
+        // Настройка типов
+        $region.fias('type', $.fias.type.region);
+        $district.fias('type', $.fias.type.district);
+        $city.fias('type', $.fias.type.city);
+        $street.fias('type', $.fias.type.street);
+        $building.fias('type', $.fias.type.building);
+
+        // Включаем родительские связи
+        $district.fias('withParents', true);
+        $city.fias('withParents', true);
+        $street.fias('withParents', true);
+
+        // Отключаем проверку для строений
+        $building.fias('verify', false);
+        
+        // Инициализация для однострочного ввода адреса
+        $('[name="address"]').fias({
+            oneString: true,
+            parentInput: '.js-form-address',
+            verify: true,
+            select: function (obj) {
+                setLabel($(this), obj.type);
+                $tooltip.hide();
+                // Обновление других полей при выборе города
+                updateAddressFields(obj);
+            },
+            checkBefore: function () {
+                var $input = $(this);
+                if (!$.trim($input.val())) {
+                    return false;
+                }
+                return true;
+            },
+            change: function (obj) {
+                if (obj && obj.parents) {
+                    $.fias.setValues(obj.parents, '.js-form-address');
+                }
+                if (obj && obj.zip) {
+                    $('[name="zip"]').val(obj.zip);
+                }
+            },
+        });
     }
+
+    function updateAddressFields(obj) {
+       // Обновление значений полей на основе выбранного объекта
+       if (obj.region) $('[name="region"]').val(obj.region);
+       if (obj.district) $('[name="district"]').val(obj.district);
+       if (obj.city) $('[name="city"]').val(obj.city);
+       if (obj.street) $('[name="street"]').val(obj.street);
+       if (obj.building) $('[name="building"]').val(obj.building);
+   }
+
+   function setLabel($input, text) {
+       text = text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+       $input.parent().find('label').text(text);
+   }
+
+   function showError($input, message) {
+       $tooltip.find('span').text(message);
+
+       var inputOffset = $input.offset(),
+           inputWidth = $input.outerWidth(),
+           inputHeight = $input.outerHeight();
+
+       var tooltipHeight = $tooltip.outerHeight();
+
+       $tooltip.css({
+           left: (inputOffset.left + inputWidth + 10) + 'px',
+           top: (inputOffset.top + (inputHeight - tooltipHeight) / 2 - 1) + 'px'
+       });
+
+       $tooltip.show();
+   }
 });
