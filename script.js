@@ -1,4 +1,3 @@
-// Инициализация FIAS
 $(function () {
     var $zip = $('[name="zip"]'),
         $region = $('[name="region"]'),
@@ -18,12 +17,14 @@ $(function () {
         },
         check: function (obj) {
             var $input = $(this);
-            if (obj) {
-                setLabel($input, obj.type);
-                $tooltip.hide();
-            } else {
-                showError($input, 'Введено неверно');
-            }
+            validateAddress(obj, function(result) {
+                if (result) {
+                    setLabel($input, result.type);
+                    $tooltip.hide();
+                } else {
+                    showError($input, 'Введено неверно');
+                }
+            });
         },
         checkBefore: function () {
             var $input = $(this);
@@ -88,6 +89,26 @@ $(function () {
                 }
             },
         });
+    }
+
+    function validateAddress(query, callback) {
+        // Здесь вы можете реализовать логику проверки существования объекта.
+        // Например, отправить AJAX-запрос на сервер или проверить локально.
+        
+        // Пример проверки:
+        var mockDatabase = [
+            { id: 1, name: 'Москва' },
+            { id: 2, name: 'Санкт-Петербург' },
+            // Добавьте другие объекты по мере необходимости
+        ];
+
+        var result = mockDatabase.find(item => item.name === query.name); // Пример поиска по имени
+
+        if (result) {
+            callback(result); // Если объект найден, передаем его в коллбек
+        } else {
+            callback(false); // Если не найден, передаем false
+        }
     }
 
     function updateAddressFields(obj) {
